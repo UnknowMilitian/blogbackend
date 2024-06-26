@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "main",
-    "debug_toolbar",
+    # "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -147,15 +147,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Configure Debug Toolbar settings
 # Note: Ensure this is only enabled in development environment for security reasons
-if DEBUG:
-    INTERNAL_IPS = [
-        "127.0.0.1",
-    ]
+# if DEBUG:
+#     INTERNAL_IPS = [
+#         "127.0.0.1",
+#     ]
 
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-        "LOCATION": os.path.join(BASE_DIR, "coolsite_cache"),
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+#         "LOCATION": os.path.join(BASE_DIR, "coolsite_cache"),
+#     }
+# }
