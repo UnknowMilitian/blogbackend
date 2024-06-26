@@ -1,0 +1,229 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Home Page -
+Cados.dev {% endblock title %} {% block content %}
+<!-- Content -->
+<div class="mx-auto px-[0.1rem] md:px-[1.2rem] xl:px-[3rem]">
+  <!-- Info Section -->
+  <section class="info my-[1rem] md:my-[2rem]" id="info">
+    <h1 class="text-white tracking-lg text-[1.5rem] md:text-[2rem]">
+      Search <span class="underline italic">2090</span> developer advocates
+      found by
+      <a
+        href="https://www.linkedin.com/in/jaloliddin-umariy-4b0a79251/"
+        class="text-green-400"
+        >@umariy</a
+      >'s webscraper and the <br />
+      TwitterAPI.
+    </h1>
+
+    <form action="" method="GET" class="my-[1rem] flex">
+      <input
+        type="text"
+        name="q"
+        value="{{ query|default:'' }}"
+        class="px-[1rem] py-[0.7rem] rounded-l outline-none bg-slate-800 text-white text-[1rem] md:text-[1.2rem] tracking-wide font-[800]"
+        placeholder="Search"
+      />
+      <input
+        type="submit"
+        value="Submit"
+        class="px-[1rem] py-[0.3rem] md:px-[1.5rem] md:py-[0.5rem] cursor-pointer font-[800] bg-green-400 rounded-e"
+      />
+    </form>
+  </section>
+  <!-- /Info Section -->
+
+  <!-- Blogs Section -->
+  <section class="blogs" id="blogs">
+    <div class="flex flex-col lg:flex-row justify-between gap-[2rem]">
+      <div
+        class="block lg:hidden authors authors-mobile w-[100%] top-[7.15rem] overflow-y-auto min-h-[10vh] max-h-[80vh]"
+      >
+        <h1 class="text-white text-[1.5rem] tracking-wide font-[700]">
+          Authors of Blogs
+        </h1>
+        <div
+          class="space-y-2 bg-slate-800 rounded p-3 author-cards grid grid-cols-1 sm:grid-cols-2 gap-[1.25rem] mt-[1rem]"
+        >
+          {% for user in users %}
+          <div class="card flex bg-slate-700 rounded-md">
+            <a
+              href="{% url 'author_blogs' user.slug %}"
+              class="w-[150px] sm:w-[38%]"
+            >
+              {% if user.image %}
+              <img
+                src="{{ user.image.url }}"
+                class="rounded-l-lg w-[150px] h-[13vh] object-cover"
+                alt=""
+              />
+              {% else %}
+              <img
+                src="{% static '/images/user.webp' %}"
+                class="rounded-l-lg w-[150px] h-[13vh] object-cover"
+                alt=""
+              />
+              {% endif %}
+            </a>
+            <div class="text px-3 py-1 w-[100%] block">
+              <h1 class="text-white text-[1.3rem]">{{user.username}}</h1>
+
+              {% if user.description %}
+              <p class="text-gray-400">
+                {{ user.description|truncatewords:8 }}
+              </p>
+              {% else %}
+              <p class="text-gray-400">No Description</p>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="blog-cards flex flex-col gap-[1.5rem] w-[100%] lg:w-[70%]">
+        {% for blog in blogs %}
+
+        <div
+          class="blog-card flex flex-col items-center md:flex-row md:justify-between bg-slate-800 rounded p-[0.75rem] md:p-[1rem]"
+        >
+          <div class="card-image w-[100%] md:w-[30%]">
+            <a href="{% url 'blog_detail' blog.slug %}">
+              <img
+                src="{{blog.image.url}}"
+                class="rounded object-cover h-[30vh] sm:h-[40vh] md:h-[40vh] xl:h-[36vh] w-[100%]"
+                alt=""
+              />
+            </a>
+          </div>
+          <div class="card-content w-[100%] md:w-[67%]">
+            <div class="hidden views md:flex justify-between items-center">
+              <a
+                href="{% url 'categories' blog.category.slug %}"
+                class="text-gray-400 block"
+                >#{{blog.category}}</a
+              >
+              <span class="text-gray-400 flex items-center">
+                {{ blog.views }}
+                <img
+                  src="{% static '/images/eye.svg' %}"
+                  class="w-[1.5rem] ml-[0.5rem]"
+                  alt=""
+                />
+              </span>
+            </div>
+            <a
+              href="{% url 'blog_detail' blog.slug %}"
+              class="block my-[1rem] text-green-200 text-[1.2rem] md:text-[1.5rem] font-[800] tracking-wide my-[0.5rem]"
+            >
+              {{ blog.title|truncatewords:8 }}
+            </a>
+            <p class="text-gray-300 text-[0.9rem] md:text-[1.1rem]">
+              {{ blog.text|safe|truncatewords:40 }}
+            </p>
+            <div
+              class="date flex flex-wrap justify-between items-center md:justify-normal gap-x-[5rem] gap-y-[0.4rem] mt-[1rem] text-[1rem] md:text-[1.1rem] text-gray-400"
+            >
+              <h1 class="">{{ blog.date|date:"d.m.Y" }}</h1>
+              <span class="md:hidden text-gray-400 flex items-center">
+                {{ blog.views }}
+                <img
+                  src="{% static '/images/eye.svg' %}"
+                  class="w-[1.2rem] ml-[0.5rem]"
+                  alt=""
+                />
+              </span>
+              <a class="" href="{% url 'author_blogs' blog.author.slug %}"
+                >@{{blog.author}}</a
+              >
+              <a
+                href="{% url 'categories' blog.category.slug %}"
+                class="md:hidden text-gray-400 block"
+                >#{{blog.category}}</a
+              >
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if blogs.has_other_pages %}
+        <div
+          class="pagination-buttons flex flex-wrap gap-[1rem] justify-start mt-[1rem]"
+        >
+          {% if blogs.has_previous %}
+          <a
+            href="?{% if query %}q={{ query }}&{% endif %}page={{ blogs.previous_page_number }}"
+            class="px-[0.7rem] py-[0.2rem] text-[1rem] border-2 border-green-200 hover:bg-green-200 hover:text-black transition rounded text-white font-[800]"
+            >&lt;</a
+          >
+          {% endif %} {% for num in blogs.paginator.page_range %} 
+          {% if blogs.number == num %}
+          <span
+            class="active px-[0.7rem] py-[0.2rem] text-[1rem] border-2 border-green-200 bg-green-200 text-black transition rounded text-black font-[800]"
+            >{{ num }}</span
+          >
+          {% elif num > blogs.number|add:'-3' and num < blogs.number|add:'3' %}
+          <a
+            href="?{% if query %}q={{ query }}&{% endif %}page={{ num }}"
+            class="px-[0.7rem] py-[0.2rem] text-[1rem] border-2 border-green-200 hover:bg-green-200 hover:text-black transition rounded text-white font-[800]"
+            >{{ num }}</a
+          >
+          {% endif %} {% endfor %} {% if blogs.has_next %}
+          <a
+            href="?{% if query %}q={{ query }}&{% endif %}page={{ blogs.next_page_number }}"
+            class="px-[0.7rem] py-[0.2rem] text-[1rem] border-2 border-green-200 hover:bg-green-200 hover:text-black transition rounded text-white font-[800]"
+            >&gt;</a
+          >
+          {% endif %}
+        </div>
+        {% endif %}
+        <!-- /Pagination -->
+      </div>
+
+      <div
+        class="hidden lg:block authors authors-desktop w-[30%] sticky top-[7.15rem] overflow-y-auto min-h-[10vh] max-h-[80vh]"
+      >
+        <h1 class="text-white text-[1.5rem] tracking-wide font-[700]">
+          Authors of Blogs
+        </h1>
+        <div
+          class="space-y-2 bg-slate-800 rounded p-3 author-cards flex flex-col gap-[1.25rem] mt-[1rem]"
+        >
+          {% for user in users %}
+          <div class="card flex bg-slate-700 rounded-md">
+            <a href="{% url 'author_blogs' user.slug %}" class="w-[150px]">
+              {% if user.image %}
+              <img
+                src="{{ user.image.url }}"
+                class="rounded-l-lg w-[150px] h-[13vh] object-cover"
+                alt=""
+              />
+              {% else %}
+              <img
+                src="{% static '/images/user.png' %}"
+                class="rounded-l-lg w-[80px] h-[11vh] my-[1rem] mx-auto"
+                alt=""
+              />
+              {% endif %}
+            </a>
+            <div class="text px-3 py-1 w-[100%] block">
+              <h1 class="text-white text-[1.3rem]">{{user.username}}</h1>
+              {% if user.description %}
+              <p class="text-gray-400">
+                {{ user.description|truncatewords:8 }}
+              </p>
+              {% else %}
+              <p class="text-gray-400">No Description</p>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /Blogs Section -->
+</div>
+<!-- /Content -->
+{% endblock content %}

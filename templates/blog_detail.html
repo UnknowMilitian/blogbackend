@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Blog Detail Page -
+Cados.dev {% endblock title %} {% block content %}
+
+<div class="my-[2rem] blogs-content px-[1rem] md:px-[2rem] xl:px-[4rem]">
+  <div class="bg-slate-800 p-[1rem] md:p-[2rem] rounded-md">
+    <h1 class="text-gray-200 text-[1.75rem] font-[800] tracking-widest">
+      {{blog.title}}
+    </h1>
+
+    <div
+      class="flex flex-wrap blog-details my-[1rem] text-gray-200 text-[1.2rem] tracking-wide gap-[2rem]"
+    >
+      <h4 class="">@{{blog.author}}</h4>
+      <h4 class="">#{{blog.category}}</h4>
+      <span class="text-gray-400 flex items-center cursor-pointer">
+        {{ blog.views }}
+        <img
+          src="{% static '/images/eye.svg' %}"
+          class="w-[1.5rem] ml-[0.25rem]"
+          alt=""
+        />
+      </span>
+    </div>
+
+    <!-- Text Section -->
+    <p class="text-gray-100 text-[1.2rem]">{{blog.text|safe|linebreaksbr}}</p>
+  </div>
+</div>
+
+{% endblock content %}

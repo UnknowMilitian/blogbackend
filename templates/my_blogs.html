@@ -1,0 +1,108 @@
+{% extends 'base.html' %} {% load static %} {% block title %} My Blogs Page -
+Cados.dev {% endblock title %} {% block content %}
+<!-- Content -->
+<div class="my-[2rem] blogs-content px-[1rem] md:px-[2rem] xl:px-[4rem]">
+  <a
+    href="{% url 'add_blog' %}"
+    class="mx-auto block w-[100%] md:w-[15rem] text-center text-[1.2rem] md:text-[1.5rem] text-white font-[800] py-[0.4rem] border-2 border-green-200 rounded-md hover:bg-green-100 hover:text-black transition ease-in-out duration-200"
+  >
+    Add new blog +
+  </a>
+  .
+  <div
+    class="blog-cards flex flex-col gap-[1.5rem] w-[100%] lg:w-[70%] mx-auto"
+  >
+    {% if blogs %} {% for blog in blogs %}
+    <div
+      class="blog-card flex flex-col items-center md:flex-row md:justify-between bg-slate-800 rounded p-[0.75rem] md:p-[1rem]"
+    >
+      <div class="card-image w-[100%] md:w-[30%]">
+        <a href="{% url 'blog_detail' blog.slug %}">
+          <img
+            src="{{blog.image.url}}"
+            class="rounded object-cover h-[30vh] sm:h-[40vh] md:h-[40vh] xl:h-[28vh] w-[100%]"
+            alt=""
+          />
+        </a>
+        <div
+          class="form_buttons mt-[1rem] flex flex-col sm:flex-row md:flex-col lg:flex-row gap-[0.75rem]"
+        >
+          <form
+            method="post"
+            action="{% url 'delete_blog' blog.slug %}"
+            class="w-[100%]"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="md:flex py-[0.5rem] px-[1rem] bg-red-400 rounded uppercase tracking-lg font-[800] flex items-center justify-center gap-[0.5rem] w-full text-center"
+            >
+              Delete
+            </button>
+          </form>
+          <a
+            href="{% url 'edit_blog' blog.slug %}"
+            class="md:flex py-[0.5rem] px-[1rem] bg-green-300 rounded uppercase tracking-lg font-[800] flex items-center justify-center gap-[0.5rem] w-full text-center"
+          >
+            Edit
+          </a>
+        </div>
+      </div>
+      <div class="card-content w-[100%] md:w-[67%]">
+        <div class="hidden views md:flex justify-between items-center">
+          <a
+            href="{% url 'categories' blog.category.slug %}"
+            class="text-gray-400 block"
+            >#{{blog.category}}</a
+          >
+          <span class="text-gray-400 flex items-center">
+            {{ blog.views }}
+            <img
+              src="{% static '/images/eye.svg' %}"
+              class="w-[1.5rem] ml-[0.5rem]"
+              alt=""
+            />
+          </span>
+        </div>
+        <a
+          href="{% url 'blog_detail' blog.slug %}"
+          class="block my-[1rem] text-green-200 text-[1.2rem] md:text-[1.5rem] font-[800] tracking-wide my-[0.5rem]"
+        >
+          {{ blog.title|truncatewords:8 }}
+        </a>
+        <p class="text-gray-300 text-[0.9rem] md:text-[1.1rem]">
+          {{ blog.text|safe|truncatewords:40 }}
+        </p>
+        <div
+          class="date flex flex-wrap justify-between items-center md:justify-normal gap-x-[5rem] gap-y-[0.4rem] mt-[1rem] text-[1rem] md:text-[1.1rem] text-gray-400"
+        >
+          <h1 class="">{{ blog.date|date:"d.m.Y" }}</h1>
+          <span class="md:hidden text-gray-400 flex items-center">
+            {{ blog.views }}
+            <img
+              src="{% static '/images/eye.svg' %}"
+              class="w-[1.2rem] ml-[0.5rem]"
+              alt=""
+            />
+          </span>
+          <a class="" href="{% url 'author_blogs' blog.author.slug %}"
+            >@{{blog.author}}</a
+          >
+          <a
+            href="{% url 'categories' blog.category.slug %}"
+            class="md:hidden text-gray-400 block"
+            >#{{blog.category}}</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <h1
+      class="bg-slate-800 p-[1rem] rounded-md my-[8vh] text-center text-green-200 text-[1.3rem] tracking-widest font-[800]"
+    >
+      There are no blogs from this user
+    </h1>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

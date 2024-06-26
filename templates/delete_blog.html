@@ -1,0 +1,14 @@
+<form method="post" action="{% url 'delete_blog' blog.slug %}">
+  {% csrf_token %}
+  <button
+      type="submit"
+      class="hidden md:flex mt-[1rem] py-[0.5rem] px-[1rem] bg-red-400 rounded uppercase tracking-lg font-[800] flex items-center justify-center gap-[0.5rem] w-full text-center"
+  >
+      Delete
+      <img
+          class="w-[1.2rem]"
+          src="../assets/images/heart_full.svg"
+          alt=""
+      />
+  </button>
+</form>

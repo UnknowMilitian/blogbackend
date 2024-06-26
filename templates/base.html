@@ -1,0 +1,135 @@
+{% load static %} {% load cache %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="{% static '/css/root.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/media.css' %}" />
+
+    <!-- Tailwind CSS -->
+    <script src="{% static '/plugins/tailwind.js' %}"></script>
+
+    <title>{% block title %} {% endblock title %}</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="p-[1rem] px-[1rem] md:px-[2rem] xl:px-[4rem]">
+      <nav class="flex justify-between items-center">
+        <a
+          href="{% url 'home' %}"
+          class="header-logo text-green-400 text-[1.5rem] md:text-[2rem] font-[800]"
+        >
+          Cados.dev
+        </a>
+
+        <!-- Bar -->
+        <img
+          class="bar block md:hidden w-[1.5rem] cursor-pointer"
+          src="{% static '/images/bar.svg' %}"
+          alt=""
+        />
+        <!-- Bar -->
+
+        <ul
+          class="ul hidden md:flex justify-between items-center gap-[2rem] text-[1rem] uppercase text-gray-300 tracking-widest font-[800]"
+        >
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'blogs' %}">Blogs</a></li>
+        </ul>
+
+        <ul
+          class="login hidden md:flex flex justify-between items-center gap-[2rem] text-[1rem] uppercase text-red-400 tracking-widest font-[800]"
+        >
+          {% if user.is_authenticated %}
+          <li class="text-gray-300 hover:text-green-300">
+            <a href="{% url 'my_blogs' %}">My Blogs</a>
+          </li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <nav
+        class="nav-mobile bg-slate-800 absolute w-[100%] left-0 right-0 top-[4.2rem] text-white text-[1.2rem]"
+      >
+        <ul class="flex flex-col gap-[2rem] items-center my-[1.5rem]">
+          <li class="hover:text-green-300"><a href="">Home</a></li>
+          <li class="hover:text-green-300"><a href="">Blogs</a></li>
+          {% if user.is_authenticated %}
+          <li class="text-gray-300 hover:text-green-300">
+            <a href="">My Blogs</a>
+          </li>
+          <li class="text-red-400"><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li class="text-red-400"><a href="{% url 'login' %}">Login</a></li>
+          <li class="text-red-400">
+            <a href="{% url 'register' %}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+    <!-- /Header -->
+
+    <!-- Content -->
+    {% block content %} {% endblock content %}
+    <!-- /Content -->
+
+    {% cache 60 footer %}
+    <!-- Footer -->
+    <footer class="mt-[5rem] bg-slate-800">
+      <div
+        class="footer-content flex justify-between px-[1rem] md:px-[4rem] py-[2rem]"
+      >
+        <div class="right-section__foter mr-[1rem]">
+          <a
+            href="{% url 'home' %}"
+            class="header-logo text-green-400 text-[1.4rem] md:text-[2rem] font-[800]"
+          >
+            Cados.dev
+          </a>
+          <h1
+            class="mt-[1rem] text-white text-[1rem] md:text-[1.5rem] font-[700]"
+          >
+            This website for blog posting, Use this website <br />
+            <span class="text-green-200 uppercase"> for your education ! </span>
+          </h1>
+        </div>
+        <div class="left-section__footer w-[50%] md:w-[25%]">
+          <h1
+            class="text-green-400 text-[1.4rem] md:text-[2rem] font-[800] mb-[1rem]"
+          >
+            All Pages
+          </h1>
+          <ul class="flex flex-col gap-[0.5rem] text-[1rem] md:text-[1.2rem]">
+            <li class="text-white hover:text-green-200">
+              <a href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="text-white hover:text-green-200">
+              <a href="{% url 'blogs' %}">Blogs</a>
+            </li>
+            <li class="text-white hover:text-green-200">
+              <a href="{% url 'my_blogs' %}">My Blogs</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="footer-copyright bg-[#01161E] w-full py-[0.5rem] text-center text-white"
+      >
+        © Copyright, Created by Umariy, 2024
+      </div>
+    </footer>
+    <!-- /Footer -->
+    {% endcache %}
+
+    <!-- JS Scripts -->
+    <script src="{% static '/js/script.js' %}"></script>
+  </body>
+</html>

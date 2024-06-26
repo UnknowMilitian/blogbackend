@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "mukta";
+  scroll-behavior: smooth;
+}
+
+/* Fonts */
+@font-face {
+  font-family: "mukta";
+  src: url("../fonts/Mukta-Regular.ttf");
+}
+
+body {
+  background: var(--bg);
+}
+
+section {
+  padding: 1rem 1rem;
+}
+
+.pagination-buttons button.active {
+  background-color: #bbf7d0;
+  color: #020617;
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+header nav ul li {
+  transition: color 0.2s ease-in-out;
+}
+
+header nav ul.ul li:hover {
+  color: var(--text-green);
+}
+
+nav.nav-mobile {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+nav.nav-mobile.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* /Header */
+
+/* Blog Cards */
+.blogs .blog-cards .blog-card button svg.heart-full path {
+  fill: rgb(253, 54, 54);
+}
+/* /Blog Cards */

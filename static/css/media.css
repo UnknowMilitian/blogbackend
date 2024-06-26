@@ -1,0 +1,12 @@
+@media (min-width: 768px) {
+  /* Assuming md breakpoint is 768px */
+  header.scrolled {
+    background: #1e293b;
+  }
+}
+
+@media (max-width: 769px) {
+  header {
+    background: #1e293b; /* Apply background color for md and above */
+  }
+}
